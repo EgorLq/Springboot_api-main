@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:8081/postgres
+    username: postgres
+    password: "sadid333"
+  flyway:
+    enabled: true
+    validate-on-migrate: true
+    locations: classpath:db
+    baseline-on-migrate: true
+server:
+  port: 7070
