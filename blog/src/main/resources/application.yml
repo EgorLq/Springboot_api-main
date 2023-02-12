@@ -3,7 +3,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:8081/postgres
     username: postgres
-    password: "sadid333"
+    password: "password"
   flyway:
     enabled: true
     validate-on-migrate: true
