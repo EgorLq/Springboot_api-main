@@ -9,12 +9,6 @@
 
 -lombok 
 
--MapStruct 
-
--Spring framework
-
--Postman
-
 -Hibernate 
 
 -Spring Boot 
