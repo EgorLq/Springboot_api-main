@@ -1,40 +1,44 @@
 package com.example.demo.entity;
 
+import lombok.*;
 import javax.persistence.*;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
+import java.sql.Date;
 import java.sql.Time;
 
 @Entity
-@Getter
-@Setter
-@ToString
+@Table(name = "diary")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Diary {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
-
+    @Column(name = "times")
     private Time times;
 
+    @Column(name = "cases")
     private String cases;
 
     @ManyToOne
-    @JoinColumn(name="User_id")
-    private User users;
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private User user;
+
+    @Column(name = "dates")
+    private Date dates;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Diary diary)) {
+        if (!(o instanceof Diary)) {
             return false;
         }
-
+        Diary diary = (Diary) o;
         return getId() == diary.getId();
     }
 

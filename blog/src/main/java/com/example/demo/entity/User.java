@@ -1,22 +1,32 @@
 package com.example.demo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-import javax.persistence.Entity;
+
+import com.example.demo.annotation.NumericPassword;
+import lombok.*;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
+@Table(name = "users")
 @Data
 @AllArgsConstructor
-@Getter
-@Setter
+@NoArgsConstructor
 public class User {
-    private int User_id;
-    private  String FullName ;
-    private String  role ;
-    private String login ;
-    private String password ;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Long id;
 
+    @Column(name = "fullname")
+    private String fullName;
+
+    private String role;
+    @NotEmpty
+    @Column(name = "login")
+    private String username;
+    @NotEmpty
+    @NumericPassword
+    private String password;
 }

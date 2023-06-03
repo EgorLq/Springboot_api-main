@@ -1,11 +1,14 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.Diary;
+
 import com.example.demo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
-    List<Test> findAllByUsers(String users);
+
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+
 }

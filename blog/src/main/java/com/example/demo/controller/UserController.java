@@ -1,24 +1,94 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Diary;
-import com.example.demo.services.UserServicesImpl;
+import com.example.demo.entity.User;
+import com.example.demo.services.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@RestController
+@RequestMapping("/users")
+@Api(tags = "Управление пользователями")
+@Slf4j
 public class UserController {
-    private final UserServicesImpl services;
 
-    public UserController(UserServicesImpl services) {
-        this.services = services;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @DeleteMapping("/deleteUsers/{id}")
-    public HttpStatus deleteUser(@PathVariable int id) {
-        this.services.deleteUser(id);
-        return HttpStatus.OK;
+    @PostMapping
+    @ApiOperation(value = "Создать пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Пользователь успешно создан"),
+            @ApiResponse(code = 400, message = "Некорректный запрос"),
+            @ApiResponse(code = 500, message = "Внутренняя ошибка сервера")
+
+    })
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User createdUser = userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    }
+
+    @GetMapping
+    @ApiOperation(value = "Получить список всех пользователей")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Пользователи успешно получены"),
+            @ApiResponse(code = 404, message = "Пользователи не найдены"),
+            @ApiResponse(code = 500, message = "Внутренняя ошибка сервера")
+
+    })
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/{userId}")
+    @ApiOperation(value = "Получить пользователя по ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Пользователь успешно получен"),
+            @ApiResponse(code = 404, message = "Пользователь не найден"),
+            @ApiResponse(code = 500, message = "Внутренняя ошибка сервера")
+
+    })
+    public ResponseEntity<User> getUserById(@PathVariable("userId") Long userId) {
+        User user = userService.getUserById(userId);
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("/{userId}")
+    @ApiOperation(value = "Обновить пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Пользователь успешно обновлен"),
+            @ApiResponse(code = 400, message = "Некорректный запрос"),
+            @ApiResponse(code = 404, message = "Пользователь не найден"),
+            @ApiResponse(code = 500, message = "Внутренняя ошибка сервера")
+
+    })
+    public ResponseEntity<User> updateUser(@PathVariable("userId") Long userId, @RequestBody User user) {
+        user.setId(userId);
+        User updatedUser = userService.updateUser(user);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @DeleteMapping("/{userId}")
+    @ApiOperation(value = "Удалить пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Пользователь успешно удален"),
+            @ApiResponse(code = 404, message = "Пользователь не найден"),
+            @ApiResponse(code = 500, message = "Внутренняя ошибка сервера")
+
+    })
+    public ResponseEntity<Void> deleteUser(@PathVariable("userId") Long userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
     }
 }

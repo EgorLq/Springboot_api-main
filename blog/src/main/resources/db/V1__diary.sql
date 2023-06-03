@@ -1,17 +1,18 @@
-DROP  TABLE  IF EXISTS diary ;
+DROP TABLE IF EXISTS diary;
 
 CREATE TABLE diary (
-                       id serial constraint table_name_pk primary key,
-                       users text ,
-                         times             time,           -- время
-                         cases         	text,           -- дела
-                         dates          date   ,           -- дата
-                       FOREIGN KEY  (users)  REFERENCES Users (User_id)
-    );
-CREATE TABLE Users (
-                       User_id serial constraint table_name_pk primary key,
-                       FullName            text,
-                       role             text,           -- роль
-                       login         	text,           -- логин
-                         password          text              -- пароль
+                       id SERIAL PRIMARY KEY,
+                       user_id INTEGER,
+                       times TIME,
+                       cases TEXT,
+                       dates DATE,
+                       FOREIGN KEY (user_id) REFERENCES users (user_id)
+);
+
+CREATE TABLE users (
+                       user_id SERIAL PRIMARY KEY,
+                       fullname TEXT,
+                       role TEXT,
+                       login TEXT,
+                       password TEXT
 );
