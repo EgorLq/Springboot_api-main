@@ -1,4 +1,7 @@
+
 spring:
+  profiles:
+    active: dev
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:8800/postgres
@@ -14,14 +17,19 @@ spring:
     locations: classpath:db
     baseline-on-migrate: true
 server:
-  port: 7070
-  # application-test.yml
-  spring:
-    datasource:
-      url: jdbc:h2:mem:testdb
-      driverClassName: org.h2.Driver
-    jpa:
-      database-platform: org.hibernate.dialect.H2Dialect
-    h2:
-      console:
-        enabled: true
+  port: 7078
+
+---
+
+spring:
+  profiles: test
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled:

@@ -13,8 +13,9 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
+
 @DataJpaTest
-@ActiveProfiles("test")
+@ActiveProfiles(value = "test")
 class UserDaoTest {
 
    @Autowired
@@ -32,7 +33,7 @@ class UserDaoTest {
 
    @Test
    void testSaveUser() {
-      User user = new User(null, "John Doe", "user", "john doe", "123456");
+      User user = new User(null, "John Doe", "user", "johndoe", "123456");
       User savedUser = userDao.save(user);
 
       Assertions.assertNotNull(savedUser.getId());
@@ -44,7 +45,7 @@ class UserDaoTest {
 
    @Test
    void testFindUserById() {
-      User user = new User(null, "John Doe", "user", "john doe", "123456");
+      User user = new User(null, "John Doe", "user", "johndoe", "123456");
 
       entityManager.persist(user);
       entityManager.flush();
@@ -59,7 +60,7 @@ class UserDaoTest {
 
    @Test
    void testDeleteUserById() {
-      User user = new User(null, "John Doe", "user", "john doe", "123456");
+      User user = new User(null, "John Doe", "user", "johndoe", "123456");
 
       entityManager.persist(user);
       entityManager.flush();
