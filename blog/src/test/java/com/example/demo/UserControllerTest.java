@@ -2,7 +2,7 @@ package com.example.demo;
 
 import com.example.demo.controller.UserController;
 import com.example.demo.entity.User;
-import com.example.demo.services.UserService;
+import com.example.demo.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.MediaType;
@@ -18,8 +18,8 @@ import java.util.List;
 
     @Test
      void testCreateUser() throws Exception {
-        UserService userServiceMock = Mockito.mock(UserService.class);
-        UserController userController = new UserController(userServiceMock);
+        UserServiceImpl userServiceImplMock = Mockito.mock(UserServiceImpl.class);
+        UserController userController = new UserController(userServiceImplMock);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
 
         User user = new User();
@@ -29,7 +29,7 @@ import java.util.List;
         user.setUsername("john doe");
         user.setPassword("123123123");
 
-        Mockito.when(userServiceMock.createUser(Mockito.any(User.class))).thenReturn(user);
+        Mockito.when(userServiceImplMock.createUser(Mockito.any(User.class))).thenReturn(user);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -44,8 +44,8 @@ import java.util.List;
 
     @Test
      void testGetAllUsers() throws Exception {
-        UserService userServiceMock = Mockito.mock(UserService.class);
-        UserController userController = new UserController(userServiceMock);
+        UserServiceImpl userServiceImplMock = Mockito.mock(UserServiceImpl.class);
+        UserController userController = new UserController(userServiceImplMock);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
 
         User user1 = new User();
@@ -66,7 +66,7 @@ import java.util.List;
         users.add(user1);
         users.add(user2);
 
-        Mockito.when(userServiceMock.getAllUsers()).thenReturn(users);
+        Mockito.when(userServiceImplMock.getAllUsers()).thenReturn(users);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/users"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -84,8 +84,8 @@ import java.util.List;
 
     @Test
      void testUpdateUser() throws Exception {
-        UserService userServiceMock = Mockito.mock(UserService.class);
-        UserController userController = new UserController(userServiceMock);
+        UserServiceImpl userServiceImplMock = Mockito.mock(UserServiceImpl.class);
+        UserController userController = new UserController(userServiceImplMock);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
 
         User existingUser = new User();
@@ -103,7 +103,7 @@ import java.util.List;
         updatedUser.setPassword("123412431412");
 
 
-        Mockito.when(userServiceMock.updateUser(Mockito.any(User.class))).thenReturn(updatedUser);
+        Mockito.when(userServiceImplMock.updateUser(Mockito.any(User.class))).thenReturn(updatedUser);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/users/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -118,8 +118,8 @@ import java.util.List;
 
     @Test
      void testDeleteUser() throws Exception {
-        UserService userServiceMock = Mockito.mock(UserService.class);
-        UserController userController = new UserController(userServiceMock);
+        UserServiceImpl userServiceImplMock = Mockito.mock(UserServiceImpl.class);
+        UserController userController = new UserController(userServiceImplMock);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
 
         User user = new User();

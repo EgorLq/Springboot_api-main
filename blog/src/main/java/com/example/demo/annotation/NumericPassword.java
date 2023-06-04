@@ -10,8 +10,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NumericPassword {
     String message() default "Поле password должно содержать только цифры";
-
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
 }

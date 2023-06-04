@@ -11,7 +11,6 @@ public class NumericPasswordValidator implements ConstraintValidator<NumericPass
         // В данном случае, аннотация NumericPassword не требует дополнительных параметров или настроек,
         // поэтому метод остается пустым.
     }
-
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value == null) {

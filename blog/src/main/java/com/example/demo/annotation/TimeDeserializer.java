@@ -11,7 +11,6 @@ import java.time.format.DateTimeFormatter;
 public class TimeDeserializer extends JsonDeserializer<Time> {
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("H:mm");
 
-
     @Override
     public Time deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         String timeString = jsonParser.getText();

@@ -15,7 +15,7 @@ public class Diary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "times")
     private Time times;
@@ -44,6 +44,6 @@ public class Diary {
 
     @Override
     public int hashCode() {
-        return getId();
+        return Math.toIntExact(getId());
     }
 }

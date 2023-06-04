@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.User;
-import com.example.demo.services.UserService;
+import com.example.demo.services.impl.UserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -19,10 +19,10 @@ import java.util.List;
 @Slf4j
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @PostMapping
@@ -34,7 +34,7 @@ public class UserController {
 
     })
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.createUser(user);
+        User createdUser = userServiceImpl.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
@@ -47,7 +47,7 @@ public class UserController {
 
     })
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
+        List<User> users = userServiceImpl.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
@@ -60,7 +60,7 @@ public class UserController {
 
     })
     public ResponseEntity<User> getUserById(@PathVariable("userId") Long userId) {
-        User user = userService.getUserById(userId);
+        User user = userServiceImpl.getUserById(userId);
         return ResponseEntity.ok(user);
     }
 
@@ -75,7 +75,7 @@ public class UserController {
     })
     public ResponseEntity<User> updateUser(@PathVariable("userId") Long userId, @RequestBody User user) {
         user.setId(userId);
-        User updatedUser = userService.updateUser(user);
+        User updatedUser = userServiceImpl.updateUser(user);
         return ResponseEntity.ok(updatedUser);
     }
 
@@ -88,7 +88,7 @@ public class UserController {
 
     })
     public ResponseEntity<Void> deleteUser(@PathVariable("userId") Long userId) {
-        userService.deleteUser(userId);
+        userServiceImpl.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
 }
