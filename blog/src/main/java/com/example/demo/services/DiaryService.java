@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface DiaryService {
 
-    DiaryDTO createDiary(DiaryDTO diaryDTO);
+  DiaryDTO createDiary(DiaryDTO diaryDTO);
 
-    List<DiaryDTO> createDiaryList(List<DiaryDTO> diaryDTOList);
+  List<DiaryDTO> createDiaryList(List<DiaryDTO> diaryDTOList);
 
-    List<DiaryDTO> getDiaryList();
+  List<DiaryDTO> getDiaryList();
 
-    DiaryDTO getDiaryById(int id) throws NotFoundException;
+  DiaryDTO getDiaryById(int id) throws NotFoundException;
 
-    DiaryDTO updateDiaryById(DiaryDTO diaryDTO) throws NotFoundException;
+  DiaryDTO updateDiaryById(DiaryDTO diaryDTO) throws NotFoundException;
 
-    void deleteDiaryById(int id);
+  void deleteDiaryById(int id);
 }
