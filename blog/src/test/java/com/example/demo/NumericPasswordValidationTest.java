@@ -14,13 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
-public class NumericPasswordValidationTest {
+ class NumericPasswordValidationTest {
 
     @Autowired
     private Validator validator;
 
     @Test
-    public void testValidNumericPassword() {
+     void testValidNumericPassword() {
         User user = new User();
         user.setPassword("123456");
 
@@ -29,7 +29,7 @@ public class NumericPasswordValidationTest {
     }
 
     @Test
-    public void testInvalidNumericPassword() {
+     void testInvalidNumericPassword() {
         User user = new User();
         user.setPassword("abc123");
 
