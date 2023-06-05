@@ -19,11 +19,13 @@ public class User {
   @Column(name = "fullname")
   private String fullName;
 
+  @Column(name = "role")
   private String role;
 
   @Column(name = "login")
   private String login;
 
   @NumericPassword
+  @Column(name = "password")
   private String password;
 }
