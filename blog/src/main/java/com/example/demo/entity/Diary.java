@@ -24,7 +24,7 @@ public class Diary {
   private String cases;
 
   @ManyToOne
-  @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+  @JoinColumn(name = "user_id", referencedColumnName = "id")
   private User user;
 
   @Column(name = "dates")

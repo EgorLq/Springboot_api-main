@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.DiaryDTO;
-import com.example.demo.services.impl.DiaryServiceImpl;
+import com.example.demo.services.DiaryService;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,26 +19,26 @@ import java.util.List;
 @RequestMapping("/diaries")
 public class DiaryController {
 
-  private final DiaryServiceImpl diaryServiceImpl;
+  private final DiaryService diaryService;
 
   @ApiOperation("Создать новый дневник")
   @PostMapping
   public ResponseEntity<DiaryDTO> createDiary(@RequestBody DiaryDTO diaryDTO) {
-    DiaryDTO createdDiary = diaryServiceImpl.createDiary(diaryDTO);
+    DiaryDTO createdDiary = diaryService.createDiary(diaryDTO);
     return ResponseEntity.status(HttpStatus.CREATED).body(createdDiary);
   }
 
   @ApiOperation("Создать пак дневников")
   @PostMapping("/batch")
   public ResponseEntity<List<DiaryDTO>> createDiaryList(@RequestBody List<DiaryDTO> diaryDTOList) {
-    List<DiaryDTO> createdDiaryList = diaryServiceImpl.createDiaryList(diaryDTOList);
+    List<DiaryDTO> createdDiaryList = diaryService.createDiaryList(diaryDTOList);
     return ResponseEntity.status(HttpStatus.CREATED).body(createdDiaryList);
   }
 
   @ApiOperation("Получить список всех дневников")
   @GetMapping
   public ResponseEntity<List<DiaryDTO>> getDiaryList() {
-    List<DiaryDTO> diaryList = diaryServiceImpl.getDiaryList();
+    List<DiaryDTO> diaryList = diaryService.getDiaryList();
     return ResponseEntity.ok(diaryList);
   }
 
@@ -50,8 +50,8 @@ public class DiaryController {
         @ApiResponse(code = 500, message = "Внутренняя ошибка сервера")
       })
   @GetMapping("/{id}")
-  public ResponseEntity<DiaryDTO> getDiaryById(@PathVariable int id) throws NotFoundException {
-    DiaryDTO diaryDTO = diaryServiceImpl.getDiaryById(id);
+  public ResponseEntity<DiaryDTO> getDiaryById(@PathVariable Long id) throws NotFoundException {
+    DiaryDTO diaryDTO = diaryService.getDiaryById(id);
     return ResponseEntity.ok(diaryDTO);
   }
 
@@ -64,9 +64,9 @@ public class DiaryController {
       })
   @PutMapping("/{id}")
   public ResponseEntity<DiaryDTO> updateDiaryById(
-      @PathVariable int id, @RequestBody DiaryDTO diaryDTO) throws NotFoundException {
-    diaryDTO.setId((long) id);
-    DiaryDTO updatedDiary = diaryServiceImpl.updateDiaryById(diaryDTO);
+      @PathVariable Long id, @RequestBody DiaryDTO diaryDTO) throws NotFoundException {
+    diaryDTO.setId(id);
+    DiaryDTO updatedDiary = diaryService.updateDiaryById(diaryDTO);
     return ResponseEntity.ok(updatedDiary);
   }
 
@@ -78,8 +78,8 @@ public class DiaryController {
         @ApiResponse(code = 500, message = "Внутренняя ошибка сервера")
       })
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteDiaryById(@PathVariable int id) throws NotFoundException {
-    diaryServiceImpl.deleteDiaryById(id);
+  public ResponseEntity<Void> deleteDiaryById(@PathVariable Long id) throws NotFoundException {
+    diaryService.deleteDiaryById(id);
     return ResponseEntity.noContent().build();
   }
 }

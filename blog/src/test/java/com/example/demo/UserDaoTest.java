@@ -36,7 +36,7 @@ class UserDaoTest {
     Assertions.assertNotNull(savedUser.getId());
     Assertions.assertEquals(user.getFullName(), savedUser.getFullName());
     Assertions.assertEquals(user.getRole(), savedUser.getRole());
-    Assertions.assertEquals(user.getUsername(), savedUser.getUsername());
+    Assertions.assertEquals(user.getLogin(), savedUser.getLogin());
     Assertions.assertEquals(user.getPassword(), savedUser.getPassword());
   }
 

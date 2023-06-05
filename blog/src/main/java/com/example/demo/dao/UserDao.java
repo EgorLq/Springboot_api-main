@@ -28,7 +28,7 @@ public class UserDao {
   }
 
   public boolean existsById(Long userId) {
-    return !userRepository.existsById(userId);
+    return userRepository.existsById(userId);
   }
 
   public void deleteById(Long userId) {

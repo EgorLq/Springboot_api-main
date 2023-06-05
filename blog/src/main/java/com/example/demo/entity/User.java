@@ -14,7 +14,7 @@ import javax.validation.constraints.NotEmpty;
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "user_id")
+  @Column(name = "id")
   private Long id;
 
   @Column(name = "fullname")
@@ -22,9 +22,9 @@ public class User {
 
   private String role;
 
-  @NotEmpty
-  @Column(name = "login")
-  private String username;
 
-  @NotEmpty @NumericPassword private String password;
+  @Column(name = "login")
+  private String login;
+
+    private String password;
 }
