@@ -1,24 +1,23 @@
 package com.example.demo.services.impl;
-import com.example.demo.dao.UserDao;
 import com.example.demo.entity.User;
 import com.example.demo.error.UserNotFoundException;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.services.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+@RequiredArgsConstructor
 @Service
 @Transactional
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userDao;
+    private final UserRepository userDao;
 
-    public UserServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
-    }
+
     /**
      * Создает нового пользователя.
      *
