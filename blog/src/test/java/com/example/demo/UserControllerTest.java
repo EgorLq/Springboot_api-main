@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -28,12 +29,12 @@ class UserControllerTest {
   @Mock private UserService userServiceMock;
 
   @Mock private UserMapper userMapperMock;
-
+  @InjectMocks
+   private  UserController userController ;
   private MockMvc mockMvc;
 
   @BeforeEach
   void setup() {
-    UserController userController = new UserController(userServiceMock, userMapperMock);
     mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
   }
 
@@ -56,7 +57,7 @@ class UserControllerTest {
         .andExpect(
             MockMvcResultMatchers.content()
                 .json(
-                    "{\"id\":1,\"fullName\":\"John Doe\",\"role\":\"user\",\"password\":\"123123123\"}"));
+                    "{\"id\":1,\"fullName\":\"John Doe\",\"role\":\"user\",\"login\":\"john.doe\",\"password\":\"123123123\"}"));
   }
 
   @Test
@@ -108,7 +109,7 @@ class UserControllerTest {
         .andExpect(
             MockMvcResultMatchers.content()
                 .json(
-                    "{\"id\":1,\"fullName\":\"John Doe\",\"role\":\"admin\",\"password\":\"123412431412\"}"));
+                    "{\"id\":1,\"fullName\":\"John Doe\",\"role\":\"admin\",\"login\":\"john.doe\",\"password\":\"123412431412\"}"));
   }
 
   @Test

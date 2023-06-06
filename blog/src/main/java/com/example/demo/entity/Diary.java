@@ -10,6 +10,7 @@ import java.sql.Time;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Diary {
 
   @Id
@@ -30,20 +31,4 @@ public class Diary {
   @Column(name = "dates")
   private Date dates;
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof Diary)) {
-      return false;
-    }
-    Diary diary = (Diary) o;
-    return getId() == diary.getId();
-  }
-
-  @Override
-  public int hashCode() {
-    return Math.toIntExact(getId());
-  }
 }
