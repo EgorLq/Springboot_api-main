@@ -8,28 +8,15 @@ spring:
     username: postgres
     password: "yourpass"
   jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
   flyway:
     enabled: true
     validate-on-migrate: true
     locations: classpath:db
     baseline-on-migrate: true
 server:
-  port: 7078
+  port: 7833
 
 ---
 
-spring:
-  profiles: test
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-  h2:
-    console:
-      enabled:
