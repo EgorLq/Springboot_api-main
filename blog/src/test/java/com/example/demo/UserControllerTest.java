@@ -29,9 +29,9 @@ class UserControllerTest {
   @Mock private UserService userServiceMock;
 
   @Mock private UserMapper userMapperMock;
-  @InjectMocks
-   private  UserController userController ;
+  @InjectMocks private UserController userController;
   private MockMvc mockMvc;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   @BeforeEach
   void setup() {
@@ -46,18 +46,14 @@ class UserControllerTest {
     when(userMapperMock.userDTOToUser(any(UserDTO.class))).thenReturn(user);
     when(userServiceMock.createUser(any(User.class))).thenReturn(user);
     when(userMapperMock.userToUserDTO(any(User.class))).thenReturn(userDto);
-
+    String requestJson = toJsonString(userDto);
     mockMvc
-        .perform(
-            MockMvcRequestBuilders.post("/users")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(
-                    "{\"fullName\":\"John Doe\",\"role\":\"user\",\"login\":\"john.doe\",\"password\":\"123123123\"}"))
-        .andExpect(MockMvcResultMatchers.status().isCreated())
-        .andExpect(
-            MockMvcResultMatchers.content()
-                .json(
-                    "{\"id\":1,\"fullName\":\"John Doe\",\"role\":\"user\",\"login\":\"john.doe\",\"password\":\"123123123\"}"));
+            .perform(
+                    MockMvcRequestBuilders.post("/users")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestJson))
+            .andExpect(MockMvcResultMatchers.status().isCreated())
+            .andExpect(MockMvcResultMatchers.content().json(toJsonString(userDto)));
   }
 
   @Test
@@ -79,37 +75,31 @@ class UserControllerTest {
     User user = createUserInstance();
     when(userServiceMock.getUserById(1L)).thenReturn(user);
     setupUserMapperMock();
+    String expectedJson = toJsonString(user);
+
     mockMvc
-        .perform(MockMvcRequestBuilders.get("/users/1"))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(
-            MockMvcResultMatchers.content()
-                .json(
-                    "{\"id\":1,\"fullName\":\"John Doe\",\"role\":\"user\",\"password\":\"123123123\"}"));
+            .perform(MockMvcRequestBuilders.get("/users/1"))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.content().json(expectedJson));
   }
+
 
   @Test
   void testUpdateUser() throws Exception {
-    UserDTO updatedUserDto = createUserDtoInstance();
-    updatedUserDto.setRole("admin");
-    updatedUserDto.setPassword("123412431412");
-    User updatedUser = createUserInstance();
-    updatedUser.setRole("admin");
-    updatedUser.setPassword("123412431412");
+    UserDTO updatedUserDto = new UserDTO(1L, "John Doe", "admin", "john.doe", "123412431412");
+    User updatedUser = new User(1L, "John Doe", "admin", "john.doe", "123412431412");
     when(userMapperMock.userDTOToUser(any(UserDTO.class))).thenReturn(updatedUser);
     when(userServiceMock.updateUser(any(User.class))).thenReturn(updatedUser);
     when(userMapperMock.userToUserDTO(any(User.class))).thenReturn(updatedUserDto);
+    String requestJson = toJsonString(updatedUserDto);
+    String expectedJson = toJsonString(updatedUser);
     mockMvc
-        .perform(
-            MockMvcRequestBuilders.put("/users/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(
-                    "{\"fullName\":\"John Doe\",\"role\":\"admin\",\"login\":\"john.doe\",\"password\":\"123412431412\"}"))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(
-            MockMvcResultMatchers.content()
-                .json(
-                    "{\"id\":1,\"fullName\":\"John Doe\",\"role\":\"admin\",\"login\":\"john.doe\",\"password\":\"123412431412\"}"));
+            .perform(
+                    MockMvcRequestBuilders.put("/users/1")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestJson))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.content().json(expectedJson));
   }
 
   @Test
@@ -129,6 +119,9 @@ class UserControllerTest {
     return userDto;
   }
 
+  private String toJsonString(Object object) throws Exception {
+    return objectMapper.writeValueAsString(object);
+  }
   private User createUserInstance() {
     User user = new User();
     user.setId(1L);

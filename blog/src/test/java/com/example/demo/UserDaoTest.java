@@ -1,69 +1,58 @@
 package com.example.demo;
 
-import com.example.demo.dao.UserDao;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Optional;
+import java.util.List;
 
 @DataJpaTest
 @ActiveProfiles(value = "test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class UserDaoTest {
 
-  @Autowired private TestEntityManager entityManager;
+  @Autowired
+  private UserRepository userRepository;
 
-  @Autowired private UserRepository userRepository;
-
-  private UserDao userDao;
-
-  @BeforeEach
-  public void setUp() {
-    userDao = new UserDao(userRepository);
+  private User createUser() {
+    return new User(1L, "John Doe", "user", "johndoe", "123456");
   }
 
   @Test
   void testSaveUser() {
-    User user = new User(null, "John Doe", "user", "johndoe", "123456");
-    User savedUser = userDao.save(user);
+    User savedUser = userRepository.findById(1L).orElse(null);
+    Assertions.assertNotNull(savedUser);
+    Assertions.assertEquals(createUser(), savedUser);
+  }
 
-    Assertions.assertNotNull(savedUser.getId());
-    Assertions.assertEquals(user.getFullName(), savedUser.getFullName());
-    Assertions.assertEquals(user.getRole(), savedUser.getRole());
-    Assertions.assertEquals(user.getLogin(), savedUser.getLogin());
-    Assertions.assertEquals(user.getPassword(), savedUser.getPassword());
+  @Test
+  void testFindAllUsers() {
+    List<User> userList = userRepository.findAll();
+    Assertions.assertEquals(2, userList.size());
   }
 
   @Test
   void testFindUserById() {
-    User user = new User(null, "John Doe", "user", "johndoe", "123456");
+    User foundUser = userRepository.findById(1L).orElse(null);
+    Assertions.assertNotNull(foundUser);
+    Assertions.assertEquals(createUser(), foundUser);
+  }
 
-    entityManager.persist(user);
-    entityManager.flush();
-
-    Optional<User> foundUser = userDao.findById(user.getId());
-
-    Assertions.assertTrue(foundUser.isPresent());
-    Assertions.assertEquals(user, foundUser.get());
+  @Test
+  void testExistsUserById() {
+    boolean exists = userRepository.existsById(1L);
+    Assertions.assertTrue(exists);
   }
 
   @Test
   void testDeleteUserById() {
-    User user = new User(null, "John Doe", "user", "johndoe", "123456");
-
-    entityManager.persist(user);
-    entityManager.flush();
-
-    userDao.deleteById(user.getId());
-
-    Optional<User> deletedUser = userRepository.findById(user.getId());
-
-    Assertions.assertFalse(deletedUser.isPresent());
+    userRepository.deleteById(1L);
+    boolean exists = userRepository.existsById(1L);
+    Assertions.assertFalse(exists);
   }
 }

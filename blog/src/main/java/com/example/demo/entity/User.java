@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +29,6 @@ public class User {
   @NumericPassword
   @Column(name = "password")
   private String password;
+
+
 }
