@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-import com.example.demo.annotation.TimeDeserializer;
+import com.example.demo.Deserializer.TimeDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 

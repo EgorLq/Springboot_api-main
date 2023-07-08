@@ -10,7 +10,6 @@ import java.sql.Time;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 public class Diary {
 
   @Id

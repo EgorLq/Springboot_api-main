@@ -53,6 +53,7 @@ class UserControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(requestJson))
             .andExpect(MockMvcResultMatchers.status().isCreated())
+
             .andExpect(MockMvcResultMatchers.content().json(toJsonString(userDto)));
   }
 
@@ -91,8 +92,10 @@ class UserControllerTest {
     when(userMapperMock.userDTOToUser(any(UserDTO.class))).thenReturn(updatedUser);
     when(userServiceMock.updateUser(any(User.class))).thenReturn(updatedUser);
     when(userMapperMock.userToUserDTO(any(User.class))).thenReturn(updatedUserDto);
+
     String requestJson = toJsonString(updatedUserDto);
     String expectedJson = toJsonString(updatedUser);
+
     mockMvc
             .perform(
                     MockMvcRequestBuilders.put("/users/1")

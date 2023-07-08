@@ -4,13 +4,13 @@ import com.example.demo.annotation.NumericPassword;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +30,6 @@ public class User {
   @Column(name = "password")
   private String password;
 
-
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<Diary> diaryEntries;
 }
